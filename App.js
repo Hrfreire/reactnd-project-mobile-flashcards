@@ -1,10 +1,15 @@
 import React from 'react';
-import { StyleSheet, View, Platform, StatusBar } from 'react-native';
-import { createBottomTabNavigator, createMaterialTopTabNavigator, createAppContainer } from 'react-navigation'
+import { View, Platform, StatusBar } from 'react-native';
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import ReduxThunk from 'redux-thunk'
+import { createBottomTabNavigator, createMaterialTopTabNavigator, createAppContainer, createStackNavigator } from 'react-navigation'
 import { Constants } from 'expo'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import reducer from './reducers'
 
 import DeckList from './components/DeckList'
+import AddDeck from './components/AddDeck'
 
 const routeConfig = {
   DeckList: {
@@ -15,7 +20,7 @@ const routeConfig = {
     }
   },
   newDeck: {
-    screen: View,
+    screen: AddDeck,
     navigationOptions: {
       tabBarLabel: 'New Deck',
       topBarIcon: ({ tintColor }) => <MaterialCommunityIcons name='cards-outline' size={30} color={tintColor} />
@@ -43,11 +48,19 @@ const drawConfig = {
   }
 }
 
-const Tabs = createAppContainer(
-  Platform.OS === 'ios'
+const Tabs = Platform.OS === 'ios'
   ? createBottomTabNavigator(routeConfig, drawConfig)
   : createMaterialTopTabNavigator(routeConfig, drawConfig)
-)
+
+
+const MainNavigator = createAppContainer(createStackNavigator({
+  Home: {
+    screen: Tabs,
+    navigationOptions: {
+      header: null
+    } 
+  }
+}))
 
 function AppStatusBar({ backgroundColor, ...props}) {
   return (
@@ -60,19 +73,12 @@ function AppStatusBar({ backgroundColor, ...props}) {
 export default class App extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <AppStatusBar backgroundColor={'gray'} barStyle='light-content' />
-        <Tabs />
-      </View>
+      <Provider store={createStore(reducer, applyMiddleware(ReduxThunk))}>
+        <View style={{ flex: 1 }}>
+          <AppStatusBar backgroundColor={'gray'} barStyle='light-content' />
+          <MainNavigator />
+        </View>
+      </Provider>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

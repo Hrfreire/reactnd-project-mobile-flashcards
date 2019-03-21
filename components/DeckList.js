@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import { View, Text, FlatList, StyleSheet } from 'react-native'
-
-const list = [{ title: 'Teste', questions: [{}, {}]}, { title: 'Teste1', questions: [{}, {}]}, { title: 'Teste2', questions: [{}, {}]}]
+import { connect } from 'react-redux'
+import { getDeckList } from '../actions'
 
 class DeckList extends Component {
+
+  componentDidMount() {
+    this.props.dispatch(getDeckList())
+  }
 
   renderItem = (item) => {
     return (
@@ -15,10 +19,13 @@ class DeckList extends Component {
   }
 
   render() {
+
+    const { decks } = this.props
+
     return (
       <View style={{ flex: 1 }}>
         <FlatList
-          data={list}
+          data={decks}
           keyExtractor={(item) => item.title}
           renderItem={({item}) => this.renderItem(item)}
           ItemSeparatorComponent={() => <View style={styles.listSeparator}/>}
@@ -49,4 +56,16 @@ const styles = StyleSheet.create({
   }
 })
 
-export default DeckList
+function mapStateToProps(state) {
+  return {
+    decks: state
+  }
+}
+
+function mapDispatchToProps() {
+  return {
+    getDeckList: getDeckList
+  }
+}
+
+export default connect(mapStateToProps)(DeckList)
