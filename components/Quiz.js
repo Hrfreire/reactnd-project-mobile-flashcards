@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native'
 import { connect } from 'react-redux'
 
 class Quiz extends Component {
@@ -21,7 +21,34 @@ class Quiz extends Component {
     isFinished: false
   }
 
+  constructor() {
+    super();
+    this.animatedValue = new Animated.Value(0);
+    this.value = 0;
+    this.animatedValue.addListener(({ value }) => {
+      this.value = value;
+    });
+  }
+
+  flipAnimation = () => {
+    if (this.value >= 90) {
+      Animated.spring(this.animatedValue, {
+        toValue: 0,
+        tension: 10,
+        friction: 8,
+      }).start();
+    } else {
+      Animated.spring(this.animatedValue, {
+        toValue: 180,
+        tension: 10,
+        friction: 8,
+      }).start();
+    }
+  }
+
   onPressTurnCard = () => {
+    this.flipAnimation()
+
     this.setState(({ cardSide }) => {
       return {
         cardSide: cardSide === 'question'
@@ -80,10 +107,10 @@ class Quiz extends Component {
     )
   }
 
-  render () {
+  renderAnimatedCard() {
 
     const { deck } = this.props
-    const { currentQuestionIndex, cardSide, isFinished } = this.state
+    const { currentQuestionIndex, cardSide } = this.state
     const currentQuestion = deck.questions[currentQuestionIndex]
  
     const currentText = cardSide === 'question'
@@ -94,6 +121,29 @@ class Quiz extends Component {
       ? 'Answer'
       : 'question'
 
+    const interpolate = this.animatedValue.interpolate({
+      inputRange: [0, 180],
+      outputRange: ['180deg', '360deg'],
+    });
+    const rotateY = { transform: [{ rotateY: interpolate }] };
+
+    return (
+      <Animated.View style={[rotateY, styles.card]}>
+        <Animated.Text style={[rotateY,styles.mainText]}>
+          {currentText}
+        </Animated.Text>
+        <TouchableOpacity onPress={this.onPressTurnCard}>
+          <Animated.Text style={[rotateY, { color: 'red' }]}>{buttonText}</Animated.Text>
+        </TouchableOpacity>
+      </Animated.View>
+    )
+  }
+
+  render () {
+
+    const { deck } = this.props
+    const { currentQuestionIndex, cardSide, isFinished } = this.state
+
     if(isFinished) {
       return this.renderFinished()
     }
@@ -103,14 +153,7 @@ class Quiz extends Component {
         <Text style={styles.counter}>
           {currentQuestionIndex + 1} / { deck.questions.length}
         </Text>
-        <View style={styles.card}>
-          <Text style={styles.mainText}>
-            {currentText}
-          </Text>
-          <TouchableOpacity onPress={this.onPressTurnCard}>
-            <Text style={{ color: 'red' }}>{buttonText}</Text>
-          </TouchableOpacity>
-        </View>
+        {this.renderAnimatedCard()}
         <View style={[styles.buttonsWrapper, { opacity: cardSide === 'question' ? .7 : 1 }]}>
           <View style={{ height: 60, flexDirection: 'row' }}>
             <View style={{flex: .2}}/>
