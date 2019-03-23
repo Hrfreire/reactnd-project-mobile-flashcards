@@ -10,48 +10,64 @@ import {
   KeyboardAvoidingView
 } from 'react-native'
 import { connect } from 'react-redux'
-import { addDeck } from '../actions/index'
+import { addQuestion } from '../actions'
 
-class AddDeck extends Component {
+class AddCard extends Component {
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Add Card',
+      headerStyle: {
+        backgroundColor: '#000000',
+      },
+      headerTintColor: '#FFFFFF',
+    }
+  }
 
   state = {
-    title: ''
+    question: '',
+    answer: ''
   }
 
   onSubmit = () => {
-    const { title } = this.state
-    const { submit } = this.props
+    const { question, answer } = this.state
+    const { submit, navigation } = this.props
 
     Keyboard.dismiss()
 
-    if(title === '') {
+    if(question === '' || answer === '') {
       Alert.alert(
         'Alert',
-        'Fill the title of deck.',
+        'Fill all the fields.',
         [{text: 'OK'}]
       );
       return;
     }
 
-    submit(title)
+    submit(navigation.state.params.deckTitle, question)
 
-    this.setState({ title: '' })
+    this.setState({ question: '', answer: '' })
 
-    this.props.navigation.navigate('DeckList')
+    this.props.navigation.goBack()
   }
 
   render() {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <Text style={styles.text}>
-          What is the title of your new deck?
-        </Text>
         <View style={styles.textInputWrapper}>
           <TextInput
-            onChangeText={(title) => this.setState({title})}
-            value={this.state.title}
+            onChangeText={(question) => this.setState({question})}
+            value={this.state.question}
             style={styles.textInput}
-            placeholder='Deck Title'
+            placeholder='Question'
+          />
+        </View>
+        <View style={styles.textInputWrapper}>
+          <TextInput
+            onChangeText={(answer) => this.setState({answer})}
+            value={this.state.answer}
+            style={styles.textInput}
+            placeholder='Answer'
           />
         </View>
         <TouchableOpacity style={styles.button} onPress={this.onSubmit}>
@@ -66,14 +82,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-  },
-  text: {
-    textAlign: 'center',
-    fontSize: 30,
-    marginTop: 50,
-    marginBottom: 20,
-    marginLeft: 20,
-    marginRight: 20
   },
   textInput: {
     alignSelf: 'stretch',
@@ -104,8 +112,8 @@ const styles = StyleSheet.create({
 
 function mapDispatchToProps(dispatch) {
   return {
-    submit: (title) => dispatch(addDeck(title))
+    submit: (deckTitle, question) => dispatch(addQuestion(deckTitle, question))
   }
 }
 
-export default connect(null, mapDispatchToProps)(AddDeck)
+export default connect(null, mapDispatchToProps)(AddCard)

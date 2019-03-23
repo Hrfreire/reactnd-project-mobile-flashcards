@@ -14,3 +14,14 @@ export function addDeck(deck) {
     [deck.title]: deck
   }))
 }
+
+export function addQuestion(deckTitle, question) {
+  return AsyncStorage.getItem(DECK_STORAGE_KEY)
+    .then((result) => {
+      const deck = (JSON.parse(result))[deckTitle]
+      deck.questions.push(question)
+      return AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify({
+        [deck.title]: deck
+      })).then(() => deck)
+    })
+}

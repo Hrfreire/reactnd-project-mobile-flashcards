@@ -1,20 +1,28 @@
 import React, { Component } from 'react'
-import { View, Text, FlatList, StyleSheet } from 'react-native'
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { getDeckList } from '../actions'
 
 class DeckList extends Component {
 
   componentDidMount() {
-    this.props.dispatch(getDeckList())
+    this.props.getDeckList()
+  }
+
+  onPressDeck = (deck) => {
+    this.props.navigation.navigate('DeckPage', {
+      deckTitle: deck.title
+    })
   }
 
   renderItem = (item) => {
     return (
-      <View style={styles.itemContainer}>
-        <Text style={styles.itemText}>{item.title}</Text>
-        <Text style={styles.itemDescription}>{item.questions.length} cards</Text>
-      </View>
+      <TouchableOpacity onPress={() => this.onPressDeck(item)}>
+        <View style={styles.itemContainer}>
+          <Text style={styles.itemText}>{item.title}</Text>
+          <Text style={styles.itemDescription}>{item.questions.length} cards</Text>
+        </View>
+      </TouchableOpacity>
     )
   }
 
@@ -62,10 +70,10 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps() {
+function mapDispatchToProps(dispatch) {
   return {
-    getDeckList: getDeckList
+    getDeckList: () => dispatch(getDeckList())
   }
 }
 
-export default connect(mapStateToProps)(DeckList)
+export default connect(mapStateToProps, mapDispatchToProps)(DeckList)

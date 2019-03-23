@@ -3,13 +3,24 @@ import { View, Platform, StatusBar } from 'react-native';
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import ReduxThunk from 'redux-thunk'
-import { createBottomTabNavigator, createMaterialTopTabNavigator, createAppContainer, createStackNavigator } from 'react-navigation'
+import {
+  createBottomTabNavigator,
+  createMaterialTopTabNavigator,
+  createAppContainer,createStackNavigator,
+  SafeAreaView
+} from 'react-navigation'
 import { Constants } from 'expo'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import reducer from './reducers'
 
 import DeckList from './components/DeckList'
 import AddDeck from './components/AddDeck'
+import DeckPage from './components/DeckPage'
+import AddCard from './components/AddCard'
+
+if (Platform.OS === 'android') {
+  SafeAreaView.setStatusBarHeight(0);
+}
 
 const routeConfig = {
   DeckList: {
@@ -19,7 +30,7 @@ const routeConfig = {
       topBarIcon: ({ tintColor }) => <MaterialCommunityIcons name='cards' size={30} color={tintColor} />
     }
   },
-  newDeck: {
+  NewDeck: {
     screen: AddDeck,
     navigationOptions: {
       tabBarLabel: 'New Deck',
@@ -58,8 +69,10 @@ const MainNavigator = createAppContainer(createStackNavigator({
     screen: Tabs,
     navigationOptions: {
       header: null
-    } 
-  }
+    }
+  },
+  DeckPage: { screen: DeckPage },
+  AddCard: { screen: AddCard }
 }))
 
 function AppStatusBar({ backgroundColor, ...props}) {
@@ -74,10 +87,10 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={createStore(reducer, applyMiddleware(ReduxThunk))}>
-        <View style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1 }}>
           <AppStatusBar backgroundColor={'gray'} barStyle='light-content' />
           <MainNavigator />
-        </View>
+        </SafeAreaView>
       </Provider>
     );
   }

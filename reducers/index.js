@@ -1,4 +1,8 @@
-import { SUCCESS_GET_DECK_LIST, SUCCESS_ADD_DECK } from '../actions'
+import { SUCCESS_GET_DECK_LIST, SUCCESS_ADD_DECK, SUCCESS_ADD_QUESTION } from '../actions'
+
+function sortDecks(a, b) {
+  return a.title.localeCompare(b.title);
+}
 
 function decks (state = [], action) {
   switch(action.type) {
@@ -6,12 +10,17 @@ function decks (state = [], action) {
       return [
         ...state,
         ...action.payload
-      ]
+      ].sort(sortDecks)
     case SUCCESS_ADD_DECK:
       return [
         ...state,
         action.payload
-      ]
+      ].sort(sortDecks)
+    case SUCCESS_ADD_QUESTION:
+      return [
+        ...state.filter(deck => (deck.title !== action.payload.title)),
+        action.payload
+      ].sort(sortDecks)
     default: 
       return state
   }
