@@ -23,7 +23,11 @@ class DeckPage extends Component {
   }
 
   onPressStart = () => {
+    const { navigation, deck } = this.props
 
+    navigation.navigate('Quiz', {
+      deckTitle: deck.title
+    })
   }
 
   render() {

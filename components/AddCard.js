@@ -44,7 +44,7 @@ class AddCard extends Component {
       return;
     }
 
-    submit(navigation.state.params.deckTitle, question)
+    submit(navigation.state.params.deckTitle, { question, answer })
 
     this.setState({ question: '', answer: '' })
 

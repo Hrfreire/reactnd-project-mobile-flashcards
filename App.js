@@ -17,6 +17,7 @@ import DeckList from './components/DeckList'
 import AddDeck from './components/AddDeck'
 import DeckPage from './components/DeckPage'
 import AddCard from './components/AddCard'
+import Quiz from './components/Quiz'
 
 if (Platform.OS === 'android') {
   SafeAreaView.setStatusBarHeight(0);
@@ -72,7 +73,8 @@ const MainNavigator = createAppContainer(createStackNavigator({
     }
   },
   DeckPage: { screen: DeckPage },
-  AddCard: { screen: AddCard }
+  AddCard: { screen: AddCard },
+  Quiz: { screen: Quiz }
 }))
 
 function AppStatusBar({ backgroundColor, ...props}) {
