@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import { connect } from 'react-redux'
 
 class DeckPage extends Component {
@@ -24,6 +24,15 @@ class DeckPage extends Component {
 
   onPressStart = () => {
     const { navigation, deck } = this.props
+
+    if (deck.questions.length === 0) {
+      Alert.alert(
+        'Alert',
+        'You need to add cards first.',
+        [{text: 'OK'}]
+      );
+      return;
+    }
 
     navigation.navigate('Quiz', {
       deckTitle: deck.title
