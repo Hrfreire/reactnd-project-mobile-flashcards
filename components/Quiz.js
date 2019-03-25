@@ -94,6 +94,19 @@ class Quiz extends Component {
     })
   }
 
+  backToDeck = () => {
+    this.props.navigation.goBack()
+  }
+
+  restart = () => {
+    this.setState({
+      correctCount: 0,
+      currentQuestionIndex: 0,
+      cardSide: 'question',
+      isFinished: false
+    })
+  }
+
   renderFinished = () => {
     const { deck } = this.props
     const { correctCount } = this.state
@@ -103,6 +116,28 @@ class Quiz extends Component {
         <Text style={{ fontSize: 35, textAlign: 'center' }}>
           Correct Percentage: { ((correctCount / deck.questions.length) * 100).toFixed(2) }%
         </Text>
+        <View style={[styles.buttonsWrapper, { marginTop: 20 }]}>
+          <View style={{ height: 60, flexDirection: 'row' }}>
+            <View style={{flex: .2}}/>
+            <TouchableOpacity
+              onPress={this.restart}
+              style={[styles.button, { flex: .6, backgroundColor: 'black' }]}
+            >
+             <Text style={{ color: 'white' }}>Restart Quiz</Text>
+            </TouchableOpacity>
+            <View style={{flex: .2}}/>
+          </View>
+          <View style={{ height: 60, flexDirection: 'row', marginTop: 5 }}>
+            <View style={{flex: .2}}/>
+            <TouchableOpacity
+              onPress={this.backToDeck}
+              style={[styles.button, { flex: .6, backgroundColor: 'black' }]}
+            >
+             <Text style={{ color: 'white' }}>Back To Deck</Text>
+            </TouchableOpacity>
+            <View style={{flex: .2}}/>
+          </View>
+        </View>
       </View>
     )
   }
