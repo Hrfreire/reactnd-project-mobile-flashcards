@@ -11,6 +11,7 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import { addDeck } from '../actions/index'
+import { black, white, gray } from '../utils/colors'
 
 class AddDeck extends Component {
 
@@ -55,7 +56,7 @@ class AddDeck extends Component {
           />
         </View>
         <TouchableOpacity style={styles.button} onPress={this.onSubmit}>
-          <Text style={{ color: 'white'}}>Submit</Text>
+          <Text style={{ color: white }}>Submit</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     )
@@ -86,14 +87,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     height: 40,
     margin: 20,
-    borderColor: 'gray',
+    borderColor: gray,
     borderWidth: 1,
     borderRadius: 5
   },
   button: {
     width: 120,
     height: 45,
-    backgroundColor: 'black',
+    backgroundColor: black,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,

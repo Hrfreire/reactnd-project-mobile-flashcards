@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native'
 import { connect } from 'react-redux'
 import { setLocalNotification, clearLocalNotification } from '../utils/notifications'
+import { white, green, red, black } from '../utils/colors'
 
 class Quiz extends Component {
 
@@ -9,9 +10,9 @@ class Quiz extends Component {
     return {
       title: 'Quiz',
       headerStyle: {
-        backgroundColor: '#000000',
+        backgroundColor: black,
       },
-      headerTintColor: '#FFFFFF',
+      headerTintColor: white,
     }
   }
 
@@ -129,9 +130,9 @@ class Quiz extends Component {
             <View style={{flex: .2}}/>
             <TouchableOpacity
               onPress={this.restart}
-              style={[styles.button, { flex: .6, backgroundColor: 'black' }]}
+              style={[styles.button, { flex: .6, backgroundColor: black }]}
             >
-             <Text style={{ color: 'white' }}>Restart Quiz</Text>
+             <Text style={{ color: white }}>Restart Quiz</Text>
             </TouchableOpacity>
             <View style={{flex: .2}}/>
           </View>
@@ -139,9 +140,9 @@ class Quiz extends Component {
             <View style={{flex: .2}}/>
             <TouchableOpacity
               onPress={this.backToDeck}
-              style={[styles.button, { flex: .6, backgroundColor: 'black' }]}
+              style={[styles.button, { flex: .6, backgroundColor: black }]}
             >
-             <Text style={{ color: 'white' }}>Back To Deck</Text>
+             <Text style={{ color: white }}>Back To Deck</Text>
             </TouchableOpacity>
             <View style={{flex: .2}}/>
           </View>
@@ -176,7 +177,7 @@ class Quiz extends Component {
           {currentText}
         </Animated.Text>
         <TouchableOpacity onPress={this.onPressTurnCard}>
-          <Animated.Text style={[rotateY, { color: 'red' }]}>{buttonText}</Animated.Text>
+          <Animated.Text style={[rotateY, { color: red }]}>{buttonText}</Animated.Text>
         </TouchableOpacity>
       </Animated.View>
     )
@@ -203,9 +204,9 @@ class Quiz extends Component {
             <TouchableOpacity
               onPress={this.onPressCorrect}
               disabled={cardSide === 'question'}
-              style={[styles.button, { flex: .6, backgroundColor: 'green' }]}
+              style={[styles.button, { flex: .6, backgroundColor: green }]}
             >
-             <Text style={{ color: 'white' }}>Correct</Text>
+             <Text style={{ color: white }}>Correct</Text>
             </TouchableOpacity>
             <View style={{flex: .2}}/>
           </View>
@@ -214,9 +215,9 @@ class Quiz extends Component {
             <TouchableOpacity
               onPress={this.onPressIncorrect}
               disabled={cardSide === 'question'}
-              style={[styles.button, { flex: .6, backgroundColor: 'red' }]}
+              style={[styles.button, { flex: .6, backgroundColor: red }]}
             >
-             <Text style={{ color: 'white' }}>Incorrect</Text>
+             <Text style={{ color: white }}>Incorrect</Text>
             </TouchableOpacity>
             <View style={{flex: .2}}/>
           </View>
@@ -246,7 +247,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: black,
     padding: 25,
     minHeight: 200
   },

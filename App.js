@@ -13,6 +13,7 @@ import { Constants } from 'expo'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import reducer from './reducers'
 import { setLocalNotification } from './utils/notifications'
+import { gray, white } from './utils/colors'
 
 import DeckList from './components/DeckList'
 import AddDeck from './components/AddDeck'
@@ -46,10 +47,10 @@ const drawConfig = {
     header: null
   },
   tabBarOptions: {
-    activeTintColor: Platform.OS === 'ios' ? 'gray' : 'white',
+    activeTintColor: Platform.OS === 'ios' ? gray : white,
     style: {
       height: 56,
-      backgroundColor: Platform.OS === 'ios' ? 'white' : 'gray',
+      backgroundColor: Platform.OS === 'ios' ? white : gray,
       shadowColor: 'rgba(0, 0, 0, 0.24)',
       shadowOffset: {
         width: 0,
@@ -95,7 +96,7 @@ export default class App extends React.Component {
     return (
       <Provider store={createStore(reducer, applyMiddleware(ReduxThunk))}>
         <SafeAreaView style={{ flex: 1 }}>
-          <AppStatusBar backgroundColor={'gray'} barStyle='light-content' />
+          <AppStatusBar backgroundColor={gray} barStyle='light-content' />
           <MainNavigator />
         </SafeAreaView>
       </Provider>

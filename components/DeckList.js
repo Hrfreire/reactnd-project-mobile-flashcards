@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { getDeckList } from '../actions'
+import { white, black, gray } from '../utils/colors'
 
 class DeckList extends Component {
 
@@ -75,12 +76,12 @@ const styles = StyleSheet.create({
   },
   itemDescription: {
     fontSize: 16,
-    color: 'gray'
+    color: gray
   },
   listSeparator: {
     flex: 1,
     height: 1,
-    backgroundColor: 'black'
+    backgroundColor: black
   }
 })
 

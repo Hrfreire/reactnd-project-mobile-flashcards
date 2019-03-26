@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import { connect } from 'react-redux'
+import { black, white, gray } from '../utils/colors'
 
 class DeckPage extends Component {
 
@@ -8,9 +9,9 @@ class DeckPage extends Component {
     return {
       title: navigation.state.params.deckTitle,
       headerStyle: {
-        backgroundColor: '#000000',
+        backgroundColor: black,
       },
-      headerTintColor: '#FFFFFF',
+      headerTintColor: white,
     }
   }
 
@@ -66,7 +67,7 @@ class DeckPage extends Component {
               onPress={this.onPressStart}
               style={[styles.button, styles.startQuizButton, { flex: .6 }]}
             >
-            <Text style={{ color: 'white' }}>Start Quiz</Text>
+            <Text style={{ color: white }}>Start Quiz</Text>
             </TouchableOpacity>
             <View style={{flex: .2}}/>
           </View>
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 20,
-    color: 'gray',
+    color: gray,
     marginTop: 5
   },
   buttonsWrapper: {
@@ -105,11 +106,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
-    borderColor: 'black',
+    borderColor: black,
     borderWidth: 1
   },
   startQuizButton: {
-    backgroundColor: 'black',
+    backgroundColor: black,
     marginTop: 10
   }
 })
