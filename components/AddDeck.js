@@ -21,7 +21,7 @@ class AddDeck extends Component {
 
   onSubmit = () => {
     const { title } = this.state
-    const { submit } = this.props
+    const { submit, navigation } = this.props
 
     Keyboard.dismiss()
 
@@ -34,11 +34,15 @@ class AddDeck extends Component {
       return;
     }
 
-    submit(title)
-
-    this.setState({ title: '' })
-
-    this.props.navigation.navigate('DeckList')
+    submit(title, () => {
+      this.setState({ title: '' })
+      
+      navigation.navigate('DeckList')
+      
+      navigation.navigate('DeckPage', {
+        deckTitle: title
+      })
+    })
   }
 
   render() {
@@ -105,7 +109,7 @@ const styles = StyleSheet.create({
 
 function mapDispatchToProps(dispatch) {
   return {
-    submit: (title) => dispatch(addDeck(title))
+    submit: (title, success) => dispatch(addDeck(title, success))
   }
 }
 

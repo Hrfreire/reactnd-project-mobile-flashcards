@@ -16,11 +16,13 @@ export function getDeckList () {
   }
 }
 
-export function addDeck (title) {
+export function addDeck (title, success) {
   return async function (dispatch) {
     await addDeckApi({ title, questions: [] })
 
-    return dispatch( { type: SUCCESS_ADD_DECK, payload: { title, questions: [] } })
+    dispatch( { type: SUCCESS_ADD_DECK, payload: { title, questions: [] } })
+    
+    success()
   }
 }
 
