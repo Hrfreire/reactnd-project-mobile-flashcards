@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native'
 import { connect } from 'react-redux'
+import { setLocalNotification, clearLocalNotification } from '../utils/notifications'
 
 class Quiz extends Component {
 
@@ -28,6 +29,11 @@ class Quiz extends Component {
     this.animatedValue.addListener(({ value }) => {
       this.value = value;
     });
+  }
+
+  resetNotifications = () => {
+    clearLocalNotification()
+      .then(setLocalNotification)
   }
 
   flipAnimation = () => {
@@ -63,6 +69,7 @@ class Quiz extends Component {
 
     this.setState(({ correctCount, currentQuestionIndex }) => {
       if(currentQuestionIndex + 1 === deck.questions.length) {
+        this.resetNotifications()
         return {
           correctCount: correctCount + 1,
           isFinished: true
@@ -82,6 +89,7 @@ class Quiz extends Component {
 
     this.setState(({ currentQuestionIndex }) => {
       if(currentQuestionIndex + 1 === deck.questions.length) {
+        this.resetNotifications()
         return {
           isFinished: true
         }

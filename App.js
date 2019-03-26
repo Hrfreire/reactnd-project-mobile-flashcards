@@ -12,6 +12,7 @@ import {
 import { Constants } from 'expo'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import reducer from './reducers'
+import { setLocalNotification } from './utils/notifications'
 
 import DeckList from './components/DeckList'
 import AddDeck from './components/AddDeck'
@@ -86,6 +87,10 @@ function AppStatusBar({ backgroundColor, ...props}) {
 }
 
 export default class App extends React.Component {
+  componentDidMount() {
+    setLocalNotification()
+  }
+
   render() {
     return (
       <Provider store={createStore(reducer, applyMiddleware(ReduxThunk))}>
