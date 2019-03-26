@@ -26,9 +26,23 @@ class DeckList extends Component {
     )
   }
 
+  renderEmpty = () => {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={{ fontSize: 30, textAlign: 'center'}}>
+          The deck list is empty. Go ahead and add a new one!
+        </Text>
+      </View>
+    )
+  }
+
   render() {
 
     const { decks } = this.props
+
+    if (decks.length === 0) {
+      return this.renderEmpty()
+    }
 
     return (
       <View style={{ flex: 1 }}>
@@ -44,6 +58,12 @@ class DeckList extends Component {
 }
 
 const styles = StyleSheet.create({
+  emptyContainer: {
+    margin: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1
+  },
   itemContainer: {
     flex: 1,
     height: 200,
